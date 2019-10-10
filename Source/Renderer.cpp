@@ -42,6 +42,7 @@ namespace luna {
 						continue;
 					}
 					closestIntersection = intersection;
+					pixelColor = { 0.0f, 0.0f, 0.0f };
 
 					// Otherwise color the pixel to the material of the object
 					for (const auto& light : scene.lights) {

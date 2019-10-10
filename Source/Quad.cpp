@@ -34,4 +34,8 @@ namespace luna {
 		return intersection;
 	}
 
+	glm::vec3 Quad::getSurfaceNormalAt(const glm::vec3& point) const {
+		return normal;
+	}
+
 }

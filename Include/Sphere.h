@@ -17,6 +17,7 @@ namespace luna {
 		Sphere(const glm::vec3& position, float radius, const Material& material = Material::DEFAULT);
 
 		std::optional<glm::vec3> getIntersectionPoint(const Ray& ray) const override;
+		glm::vec3 getSurfaceNormalAt(const glm::vec3& point) const override;
 
 	};
 

@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Timer.h"
 #include "Renderer.h"
 #include "Sphere.h"
 #include "Quad.h"
@@ -13,9 +14,11 @@ static constexpr auto WINDOW_HEIGHT = 600;
 int main(int argc, char** argv) {
 	using namespace luna;
 	Window window("Luna - Ray Traced Cities", WINDOW_WIDTH, WINDOW_HEIGHT, true, false);
-	InputManager inputManager(window);
+	InputManager::initialize(window);
+	auto& inputManager = InputManager::getInstance();
 	Renderer renderer(WINDOW_WIDTH, WINDOW_HEIGHT);
-	
+	Timer timer;
+
 	// Create the camera
 	Camera camera { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
 
@@ -27,10 +30,11 @@ int main(int argc, char** argv) {
 
 	// Create lights for the scene
 	std::vector<PointLight> lights;
-	lights.emplace_back(glm::vec3(1.3f, 0.0f, 5.0f), glm::vec3(1.0f, 0.0f, 0.0f), 2.0f);
+	lights.emplace_back(glm::vec3(1.3f, 0.0f, 5.0f), glm::vec3(1.0f, 0.0f, 0.0f), 3.0f);
 
 	Scene scene(camera, std::move(objects), lights);
 	while (!window.shouldClose()) {
+		timer.tick();
 		window.pollEvents();
 		renderer.clear();
 

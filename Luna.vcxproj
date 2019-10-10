@@ -145,8 +145,10 @@
     <ClCompile Include="Source\Material.cpp" />
     <ClCompile Include="Source\PointLight.cpp" />
     <ClCompile Include="Source\Quad.cpp" />
+    <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
     <ClCompile Include="Source\Sphere.cpp" />
+    <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +165,7 @@
     <ClInclude Include="Include\Renderer.h" />
     <ClInclude Include="Include\Scene.h" />
     <ClInclude Include="Include\Sphere.h" />
+    <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

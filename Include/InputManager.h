@@ -8,11 +8,16 @@ namespace luna {
 
 	public:
 
-		InputManager(const Window& window);
+		static void initialize(const Window& window);
+		static InputManager& getInstance();
 
 	private:
 
-		void keyPressed(int keyCode) const;
+		static GLFWwindow* WINDOW;
+
+		static void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+		InputManager();
 
 	};
 

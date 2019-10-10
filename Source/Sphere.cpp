@@ -25,7 +25,7 @@ namespace luna {
 		auto t2 = t - x;
 		auto t1Point = ray.pointAt(t1);
 		auto t2Point = ray.pointAt(t2);
-		
+
 		if (t1 < 0.0f) {
 			return (t2 > 0.0f) ? ray.pointAt(t2) : std::optional<glm::vec3>{};
 		}
@@ -37,6 +37,10 @@ namespace luna {
 		return (glm::length(t1Point - ray.origin) < glm::length(t2Point - ray.origin))
 			? t1Point
 			: t2Point;
+	}
+
+	glm::vec3 Sphere::getSurfaceNormalAt(const glm::vec3& point) const {
+		return glm::normalize(point - position);
 	}
 
 }
