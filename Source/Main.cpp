@@ -30,7 +30,10 @@ int main(int argc, char** argv) {
 
 	// Create lights for the scene
 	std::vector<PointLight> lights;
-	lights.emplace_back(glm::vec3(1.3f, 0.0f, 5.0f), glm::vec3(1.0f, 0.0f, 0.0f), 3.0f);
+	lights.emplace_back(
+		glm::vec3(1.3f, 0.0f, 5.0f),
+		glm::vec3(1.0f, 0.0f, 0.0f),
+		0.7f, 0.2f);
 
 	Scene scene(camera, std::move(objects), lights);
 	while (!window.shouldClose()) {

@@ -19,8 +19,6 @@ namespace luna {
 
 	private:
 
-		static constexpr float AMBIENT_LIGHT = 0.1f;
-
 		glm::vec3 origin;
 		float width;
 		float height;

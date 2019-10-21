@@ -15,11 +15,19 @@ namespace luna {
 
 		glm::vec3 position;
 		glm::vec3 color;
-		float radius;
+		float diffuseIntensity;
+		float specularIntensity;
 
-		PointLight(const glm::vec3& position, const glm::vec3& color, float radius);
+		PointLight(
+			const glm::vec3& position,
+			const glm::vec3& color,
+			float diffuseIntensity,
+			float specularIntensity);
 
-		float calculateEffectAt(const glm::vec3& position, const std::vector<std::unique_ptr<Object>>& objects) const;
+		float calculateEffectAt(
+			const glm::vec3& position,
+			const Object& object,
+			const std::vector<std::unique_ptr<Object>>& objects) const;
 
 	};
 

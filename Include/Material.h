@@ -10,9 +10,18 @@ namespace luna {
 
 		static Material DEFAULT;
 
-		glm::vec3 diffuseColor;
+		glm::vec3 color;
+		float specularReflectivity;
+		float diffuseReflectivity;
+		float ambientReflectivity;
+		float shininess;
 
-		Material(const glm::vec3& diffuseColor);
+		Material(
+			const glm::vec3& color,
+			float specularReflectivity,
+			float diffuseReflectivity,
+			float ambientReflectivity,
+			float shininess);
 
 	};
 

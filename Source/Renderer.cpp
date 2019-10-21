@@ -8,8 +8,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace luna {
-	
-	constexpr float Renderer::AMBIENT_LIGHT;
+
+	constexpr float AMBIENT_LIGHT = 0.1f;
 
 	Renderer::Renderer(float width, float height) :
 		origin(0.0f, 0.0f, 0.0f), width(width), height(height) {
@@ -46,21 +46,10 @@ namespace luna {
 
 					// Otherwise color the pixel to the material of the object
 					for (const auto& light : scene.lights) {
-						auto intensity = light.calculateEffectAt(*intersection, scene.objects);
-						pixelColor += light.color * intensity;
+						auto intensity = light.calculateEffectAt(*intersection, *objPtr, scene.objects);
+						pixelColor += objPtr->getMaterial().color * light.color * intensity;
 					}
-					pixelColor += objPtr->getMaterial().diffuseColor * AMBIENT_LIGHT;
-				}
-
-				for (const auto& light : scene.lights) {
-					Sphere lightSphere(light.position, light.radius, {{ 0.0f, 0.0f, 1.0f }});
-					auto intersection = lightSphere.getIntersectionPoint(ray);
-					if (!intersection || (closestIntersection && glm::length(*closestIntersection - ray.origin) < glm::length(*intersection - ray.origin))) {
-						continue;
-					}
-					closestIntersection = intersection;
-
-					pixelColor += lightSphere.getMaterial().diffuseColor * 0.3f;
+					pixelColor += objPtr->getMaterial().color * AMBIENT_LIGHT;
 				}
 				pixels.emplace_back(pixelColor);
 			}

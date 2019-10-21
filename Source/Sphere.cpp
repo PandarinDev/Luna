@@ -40,7 +40,7 @@ namespace luna {
 	}
 
 	glm::vec3 Sphere::getSurfaceNormalAt(const glm::vec3& point) const {
-		return glm::normalize(point - position);
+		return glm::normalize(position - point);
 	}
 
 }
