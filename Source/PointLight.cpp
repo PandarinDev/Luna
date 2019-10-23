@@ -25,7 +25,7 @@ namespace luna {
 		const glm::vec3& position,
 		const Object& object,
 		const std::vector<std::unique_ptr<Object>>& objects) const {
-		constexpr float ERROR_TOLERANCE = 1e-4f;
+		constexpr float ERROR_TOLERANCE = 1e-5f;
 
 		Ray ray { this->position, glm::normalize(position - this->position) };
 		// First trace if the light can hit the position

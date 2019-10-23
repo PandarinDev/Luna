@@ -1,22 +1,22 @@
 #include "Window.h"
 #include "Timer.h"
-#include "Renderer.h"
 #include "Sphere.h"
 #include "Quad.h"
 #include "PlatformUtils.h"
 #include "InputManager.h"
+#include "RendererFactory.h"
 
 #include <cmath>
 
-static constexpr auto WINDOW_WIDTH = 800;
-static constexpr auto WINDOW_HEIGHT = 600;
+static constexpr auto WINDOW_WIDTH = 1280;
+static constexpr auto WINDOW_HEIGHT = 720;
 
 int main(int argc, char** argv) {
 	using namespace luna;
 	Window window("Luna - Ray Traced Cities", WINDOW_WIDTH, WINDOW_HEIGHT, true, false);
 	InputManager::initialize(window);
 	auto& inputManager = InputManager::getInstance();
-	Renderer renderer(WINDOW_WIDTH, WINDOW_HEIGHT);
+	Renderer renderer = RendererFactory::createInstance(WINDOW_WIDTH, WINDOW_HEIGHT);
 	Timer timer;
 
 	// Create the camera
