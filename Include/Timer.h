@@ -10,6 +10,7 @@ namespace luna {
 
 		float getTime() const;
 		float getDelta() const;
+		int getFps() const;
 
 		void tick();
 

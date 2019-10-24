@@ -8,8 +8,8 @@
 
 #include <cmath>
 
-static constexpr auto WINDOW_WIDTH = 1280;
-static constexpr auto WINDOW_HEIGHT = 720;
+static constexpr auto WINDOW_WIDTH = 800;
+static constexpr auto WINDOW_HEIGHT = 600;
 
 int main(int argc, char** argv) {
 	using namespace luna;

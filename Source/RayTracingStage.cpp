@@ -1,5 +1,9 @@
 #include "RayTracingStage.h"
 
+#include <type_traits>
+#include <thread>
+#include <future>
+
 namespace luna {
 
 	constexpr float AMBIENT_LIGHT = 0.1f;
@@ -8,11 +12,29 @@ namespace luna {
 		width(width), height(height) {}
 
 	void RayTracingStage::render(std::vector<glm::vec3>& pixels, const Scene& scene) const {
-		static constexpr float FRUSTRUM_DISTANCE = 1.0f;
+		auto hardwareThreads = std::thread::hardware_concurrency();
+		if (hardwareThreads % 2 == 1) hardwareThreads -= 1;
+		std::vector<std::future<void>> futures(hardwareThreads);
+		// Create slices for each thread to process
+		auto sliceHeight = height / hardwareThreads;
+		for (int i = 0; i < hardwareThreads; ++i) {
+			glm::vec2 from(0.0f, i * sliceHeight);
+			glm::vec2 to(width, from.y + sliceHeight);
+			futures[i] = std::async(std::launch::async, [&, from, to] { traceArea(pixels, scene, from, to);  });
+		}
+		
+		// Join futures
+		for (const auto& future : futures) {
+			future.wait();
+		}		
+	}
+
+	void RayTracingStage::traceArea(std::vector<glm::vec3>& pixels, const Scene& scene, const glm::vec2& from, const glm::vec2& to) const {
+		constexpr float FRUSTRUM_DISTANCE = 1.0f;
 
 		float aspect = width / height;
-		for (float y = 0; y < height; ++y) {
-			for (float x = 0; x < width; ++x) {
+		for (float y = from.y; y < to.y; ++y) {
+			for (float x = from.x; x < to.x; ++x) {
 				float normalizedX = ((x / width) - 0.5f) * aspect;
 				float normalizedY = (y / height) - 0.5f;
 				glm::vec3 direction = glm::normalize(glm::vec3(normalizedX, normalizedY, FRUSTRUM_DISTANCE));
