@@ -2,6 +2,8 @@
 
 #include "RenderingStage.h"
 
+#include <random>
+
 namespace luna {
 
 	class RayTracingStage : public RenderingStage {
@@ -14,10 +16,10 @@ namespace luna {
 
 	private:
 
-		void traceArea(std::vector<glm::vec3>& pixels, const Scene& scene, const glm::vec2& from, const glm::vec2& to) const;
-
 		float width;
 		float height;
+
+		void traceArea(std::vector<glm::vec3>& pixels, const Scene& scene, const glm::vec2& from, const glm::vec2& to) const;
 
 	};
 
