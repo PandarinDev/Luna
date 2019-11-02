@@ -31,7 +31,7 @@ namespace luna {
 
 	void RayTracingStage::traceArea(std::vector<glm::vec3>& pixels, const Scene& scene, const glm::vec2& from, const glm::vec2& to) const {
 		constexpr float FRUSTRUM_DISTANCE = 1.0f;
-		constexpr float SAMPLES_PER_PIXEL = 4;
+		constexpr float SAMPLES_PER_PIXEL = 2;
 		static std::uniform_real_distribution<float> REAL_DISTRIBUTION(0.0f, 1.0f);
 
 		std::random_device randomDevice;

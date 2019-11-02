@@ -7,8 +7,6 @@
 #include <functional>
 #include <algorithm>
 
-#include <iostream>
-
 namespace luna {
 
 	PointLight::PointLight(

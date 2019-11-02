@@ -2,6 +2,7 @@
 #include "Timer.h"
 #include "Sphere.h"
 #include "Quad.h"
+#include "Triangle.h"
 #include "PlatformUtils.h"
 #include "InputManager.h"
 #include "RendererFactory.h"
@@ -27,6 +28,10 @@ int main(int argc, char** argv) {
 	objects.emplace_back(std::make_unique<Sphere>(glm::vec3(1.5f, 0.0f, 5.0f), 0.3f));
 	objects.emplace_back(std::make_unique<Sphere>(glm::vec3(0.0f, 0.0f, 5.0f), 1.0f));
 	objects.emplace_back(std::make_unique<Quad>(glm::vec3(0.0f, -1.5f, 5.0f), glm::vec3(0.0f, -1.0f, 0.0f), 3.0f));
+	objects.emplace_back(std::make_unique<Triangle>(
+		glm::vec3(1.5f, -1.5f, 5.0f),
+		glm::vec3(2.5f, -1.5f, 5.0f),
+		glm::vec3(2.0f, -0.5f, 5.0f)));
 
 	// Create lights for the scene
 	std::vector<PointLight> lights;
