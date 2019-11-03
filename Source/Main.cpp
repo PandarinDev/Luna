@@ -6,6 +6,7 @@
 #include "PlatformUtils.h"
 #include "InputManager.h"
 #include "RendererFactory.h"
+#include "ObjLoader.h"
 
 #include <cmath>
 
@@ -22,16 +23,7 @@ int main(int argc, char** argv) {
 
 	// Create the camera
 	Camera camera { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
-
-	// Create objects for the scene
-	std::vector<std::unique_ptr<Object>> objects;
-	objects.emplace_back(std::make_unique<Sphere>(glm::vec3(1.5f, 0.0f, 5.0f), 0.3f));
-	objects.emplace_back(std::make_unique<Sphere>(glm::vec3(0.0f, 0.0f, 5.0f), 1.0f));
-	objects.emplace_back(std::make_unique<Quad>(glm::vec3(0.0f, -1.5f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 3.0f));
-	objects.emplace_back(std::make_unique<Triangle>(
-		glm::vec3(1.5f, -1.5f, 5.0f),
-		glm::vec3(2.5f, -1.5f, 5.0f),
-		glm::vec3(2.0f, -0.5f, 5.0f)));
+	std::vector<std::unique_ptr<Object>> suzanne = ObjLoader::loadObjFile("Assets/Meshes/Suzanne.obj");
 
 	// Create lights for the scene
 	std::vector<PointLight> lights;
@@ -40,7 +32,7 @@ int main(int argc, char** argv) {
 		glm::vec3(1.0f, 0.0f, 0.0f),
 		0.7f, 0.2f);
 
-	Scene scene(camera, std::move(objects), lights);
+	Scene scene(camera, std::move(suzanne), lights);
 	while (!window.shouldClose()) {
 		timer.tick();
 		window.pollEvents();
