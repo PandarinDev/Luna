@@ -22,8 +22,9 @@ int main(int argc, char** argv) {
 	Timer timer;
 
 	// Create the camera
-	Camera camera { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
-	std::vector<std::unique_ptr<Object>> suzanne = ObjLoader::loadObjFile("Assets/Meshes/Suzanne.obj");
+	Camera camera{ { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
+	std::vector<std::unique_ptr<Object>> objects;
+	objects.emplace_back(ObjLoader::loadObjFile("Assets/Meshes/Suzanne.obj"));
 
 	// Create lights for the scene
 	std::vector<PointLight> lights;
@@ -32,7 +33,7 @@ int main(int argc, char** argv) {
 		glm::vec3(1.0f, 0.0f, 0.0f),
 		0.7f, 0.2f);
 
-	Scene scene(camera, std::move(suzanne), lights);
+	Scene scene(camera, std::move(objects), lights);
 	while (!window.shouldClose()) {
 		timer.tick();
 		window.pollEvents();

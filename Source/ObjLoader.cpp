@@ -1,6 +1,7 @@
 #include "ObjLoader.h"
 #include "StringUtils.h"
 #include "Triangle.h"
+#include "Model.h"
 
 #include <glm/vec3.hpp>
 
@@ -9,7 +10,7 @@
 
 namespace luna {
 
-	std::vector<std::unique_ptr<Object>> ObjLoader::loadObjFile(const std::string& filePath) {
+	std::unique_ptr<Object> ObjLoader::loadObjFile(const std::string& filePath) {
 		std::ifstream fileHandle(filePath);
 		if (!fileHandle) {
 			throw std::runtime_error("Failed to open file '" + filePath + "'.");
@@ -17,7 +18,7 @@ namespace luna {
 
 		std::string line;
 		std::vector<glm::vec3> vertices;
-		std::vector<std::unique_ptr<Object>> triangles;
+		std::vector<Triangle> triangles;
 		while (std::getline(fileHandle, line)) {
 			if (StringUtils::startsWith(line, "v ")) {
 				auto entries = StringUtils::split(line, ' ');
@@ -35,11 +36,11 @@ namespace luna {
 				auto& v0 = vertices[i0];
 				auto& v1 = vertices[i1];
 				auto& v2 = vertices[i2];
-				triangles.emplace_back(std::make_unique<Triangle>(v0, v1, v2));
+				triangles.emplace_back(v0, v1, v2);
 			}
 		}
 
-		return triangles;
+		return std::make_unique<Model>(triangles);
 	}
 
 }

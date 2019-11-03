@@ -9,18 +9,17 @@ namespace luna {
 	constexpr float AMBIENT_LIGHT = 0.1f;
 
 	RayTracingStage::RayTracingStage(float width, float height) :
-		width(width), height(height) {}
+		threadPool(queryThreads()), width(width), height(height) {}
 
-	void RayTracingStage::render(std::vector<glm::vec3>& pixels, const Scene& scene) const {
-		auto hardwareThreads = std::thread::hardware_concurrency();
-		if (hardwareThreads % 2 == 1) hardwareThreads -= 1;
-		std::vector<std::future<void>> futures(hardwareThreads);
+	void RayTracingStage::render(std::vector<glm::vec3>& pixels, const Scene& scene) {
+		auto numThreads = threadPool.size();
+		std::vector<std::future<void>> futures(numThreads);
 		// Create slices for each thread to process
-		auto sliceHeight = height / hardwareThreads;
-		for (int i = 0; i < hardwareThreads; ++i) {
+		auto sliceHeight = height / numThreads;
+		for (int i = 0; i < numThreads; ++i) {
 			glm::vec2 from(0.0f, i * sliceHeight);
 			glm::vec2 to(width, from.y + sliceHeight);
-			futures[i] = std::async(std::launch::async, [&, from, to] { traceArea(pixels, scene, from, to);  });
+			futures[i] = threadPool.push([&, from, to](int) { traceArea(pixels, scene, from, to); });
 		}
 		
 		// Join futures
@@ -69,6 +68,17 @@ namespace luna {
 				pixels[y * width + x] = pixelColor / SAMPLES_PER_PIXEL;
 			}
 		}
+	}
+
+	int RayTracingStage::queryThreads() {
+		auto hardwareThreads = std::thread::hardware_concurrency();
+
+		// We always want to work with an even number of threads
+		if (hardwareThreads % 2 == 1) {
+			hardwareThreads -= 1;
+		}
+
+		return hardwareThreads;
 	}
 
 }

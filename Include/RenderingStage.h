@@ -14,7 +14,7 @@ namespace luna {
 
 		virtual ~RenderingStage() = default;
 
-		virtual void render(std::vector<glm::vec3>& pixels, const Scene& scene) const = 0;
+		virtual void render(std::vector<glm::vec3>& pixels, const Scene& scene) = 0;
 
 	};
 

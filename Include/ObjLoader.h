@@ -12,7 +12,7 @@ namespace luna {
 
 	public:
 
-		static std::vector<std::unique_ptr<Object>> loadObjFile(const std::string& filePath);
+		static std::unique_ptr<Object> loadObjFile(const std::string& filePath);
 
 	private:
 
