@@ -7,7 +7,7 @@
 namespace luna {
 
     Triangle::Triangle(const glm::vec3& p0, const glm::vec3& p1, const glm::vec3& p2) :
-        Object(Material::DEFAULT), p0(p0), p1(p1), p2(p2) {}
+        Object(Material::DEFAULT), p0(p0), p1(p1), p2(p2), normal(glm::cross(p1 - p0, p0 - p2)) {}
 
     std::optional<glm::vec3> Triangle::getIntersectionPoint(const Ray& ray) const {
         constexpr float ERROR_MARGIN = 1e-5f;
@@ -61,7 +61,7 @@ namespace luna {
     }
 
     glm::vec3 Triangle::getSurfaceNormalAt(const glm::vec3& point) const {
-        return glm::cross(p1 - p0, p0 - p2);
+        return normal;
     }
 
 }

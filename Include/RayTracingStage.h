@@ -3,8 +3,6 @@
 #include "External/ctpl_stl.h"
 #include "RenderingStage.h"
 
-#include <random>
-
 namespace luna {
 
 	class RayTracingStage : public RenderingStage {
