@@ -12,7 +12,7 @@ namespace luna {
     std::optional<glm::vec3> Triangle::getIntersectionPoint(const Ray& ray) const {
         constexpr float ERROR_MARGIN = 1e-5f;
 
-        auto normal = getSurfaceNormalAt(ray.origin);
+        auto normal = -getSurfaceNormalAt(ray.origin);
         float denom = glm::dot(normal, normal);
 
         // Check if the ray and the plane are parallel
@@ -22,7 +22,7 @@ namespace luna {
         }
 
         float d = glm::dot(normal, p0);
-        float t = (glm::dot(-normal, ray.origin) + d) / nDotRay; // Why is -normal required here?
+        float t = (glm::dot(-normal, ray.origin) + d) / nDotRay; // TODO Why is -normal required here?
 
         // Check if the triangle is behind the ray
         if (t < 0.0f) {
@@ -61,7 +61,7 @@ namespace luna {
     }
 
     glm::vec3 Triangle::getSurfaceNormalAt(const glm::vec3& point) const {
-        return glm::cross(p1 - p0, p2 - p0);
+        return glm::cross(p1 - p0, p0 - p2);
     }
 
 }

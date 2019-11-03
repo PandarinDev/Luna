@@ -12,13 +12,13 @@ namespace luna {
 	std::optional<glm::vec3> Quad::getIntersectionPoint(const Ray& ray) const {
 		static constexpr float ERROR_MARGIN = 1e-6f;
 
-		float denom = glm::dot(normal, ray.direction);
+		float denom = glm::dot(-normal, ray.direction);
 		if (denom < ERROR_MARGIN) {
 			return {};
 		}
 
 		auto toCenter = position - ray.origin;
-		float t = glm::dot(toCenter, normal) / denom;
+		float t = glm::dot(toCenter, -normal) / denom;
 		if (t <= ERROR_MARGIN) {
 			return {};
 		}

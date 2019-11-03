@@ -26,7 +26,7 @@ namespace luna {
 		// Join futures
 		for (const auto& future : futures) {
 			future.wait();
-		}		
+		}
 	}
 
 	void RayTracingStage::traceArea(std::vector<glm::vec3>& pixels, const Scene& scene, const glm::vec2& from, const glm::vec2& to) const {

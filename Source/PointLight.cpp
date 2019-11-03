@@ -43,7 +43,7 @@ namespace luna {
 
 		const auto& material = object.getMaterial();
 		auto normal = object.getSurfaceNormalAt(position);
-		auto toLight = ray.direction;
+		auto toLight = glm::normalize(this->position - position);
 		auto lightSurfaceDot = glm::dot(toLight, normal);
 		auto diffuseComponent = (lightSurfaceDot > 0.0f)
 			? material.diffuseReflectivity * lightSurfaceDot * diffuseIntensity
