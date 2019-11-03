@@ -359,4 +359,7 @@ Build/
 # VSCode folder
 .vscode/
 
+# CMake settings file for VS
+CMakeSettings.json
+
 # End of https://www.gitignore.io/api/visualstudio
