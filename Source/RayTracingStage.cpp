@@ -1,4 +1,5 @@
 #include "RayTracingStage.h"
+#include "SamplingStrategy.h"
 
 #include <type_traits>
 #include <thread>
@@ -30,14 +31,15 @@ namespace luna {
 
 	void RayTracingStage::traceArea(std::vector<glm::vec3>& pixels, const Scene& scene, const glm::vec2& from, const glm::vec2& to) const {
 		constexpr float FRUSTRUM_DISTANCE = 1.0f;
-		constexpr float SAMPLES_PER_PIXEL = 1;
+		constexpr auto SAMPLING_STRATEGY = SamplingStrategy::AA_0_SAMPLING;
+		constexpr auto SAMPLES_PER_PIXEL = Sampler::getTotalNumberOfIterations<SAMPLING_STRATEGY>();
 
 		float aspect = width / height;
 		for (float y = from.y; y < to.y; ++y) {
 			for (float x = from.x; x < to.x; ++x) {
 				glm::vec3 pixelColor { 0.0f, 0.0f, 0.0f };
 				for (int i = 0; i < SAMPLES_PER_PIXEL; ++i) {
-					constexpr float offset = 0.5f; // TODO Calculate offset per iteration instead
+					float offset = Sampler::getOffset<SAMPLING_STRATEGY>(i);
 					float normalizedX = (((x + offset) / width) - 0.5f) * aspect;
 					float normalizedY = ((y + offset) / height) - 0.5f;
 					glm::vec3 direction = glm::normalize(glm::vec3(normalizedX, normalizedY, FRUSTRUM_DISTANCE));
@@ -65,7 +67,7 @@ namespace luna {
 					}
 					pixelColor += closestObject->getMaterial().color * AMBIENT_LIGHT;
 				}
-				pixels[y * width + x] = pixelColor / SAMPLES_PER_PIXEL;
+				pixels[y * width + x] = pixelColor / (float) SAMPLES_PER_PIXEL;
 			}
 		}
 	}
