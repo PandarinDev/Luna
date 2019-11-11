@@ -15,6 +15,8 @@ namespace luna {
 
 		Ray(const glm::vec3& origin, const glm::vec3& direction);
 
+		bool operator==(const Ray& other) const noexcept;
+
 		glm::vec3 pointAt(float t) const;
 
 	};

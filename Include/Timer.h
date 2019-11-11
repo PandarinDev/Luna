@@ -11,6 +11,7 @@ namespace luna {
 		float getTime() const;
 		float getDelta() const;
 		int getFps() const;
+		float getAverageFrameTime() const;
 
 		void tick();
 
@@ -21,6 +22,7 @@ namespace luna {
 		float lastFrame;
 		float lastFps;
 		int frames;
+		float avgFrameTime;
 
 	};
 

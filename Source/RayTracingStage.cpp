@@ -35,8 +35,8 @@ namespace luna {
 		constexpr auto SAMPLES_PER_PIXEL = Sampler::getTotalNumberOfIterations<SAMPLING_STRATEGY>();
 
 		float aspect = width / height;
-		for (float y = from.y; y < to.y; ++y) {
-			for (float x = from.x; x < to.x; ++x) {
+		for (std::size_t y = from.y; y < to.y; ++y) {
+			for (std::size_t x = from.x; x < to.x; ++x) {
 				glm::vec3 pixelColor { 0.0f, 0.0f, 0.0f };
 				for (int i = 0; i < SAMPLES_PER_PIXEL; ++i) {
 					float offset = Sampler::getOffset<SAMPLING_STRATEGY>(i);
@@ -67,7 +67,7 @@ namespace luna {
 					}
 					pixelColor += closestObject->getMaterial().color * AMBIENT_LIGHT;
 				}
-				pixels[y * width + x] = pixelColor / (float) SAMPLES_PER_PIXEL;
+				pixels[y * ((std::size_t) width) + x] = pixelColor / (float) SAMPLES_PER_PIXEL;
 			}
 		}
 	}

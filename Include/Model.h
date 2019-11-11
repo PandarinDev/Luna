@@ -4,6 +4,8 @@
 #include "Triangle.h"
 
 #include <vector>
+#include <mutex>
+#include <unordered_map>
 
 namespace luna {
 
@@ -17,6 +19,9 @@ namespace luna {
 		glm::vec3 getSurfaceNormalAt(const glm::vec3& point) const override;
 
 	private:
+
+		static std::unordered_map<glm::vec3, glm::vec3> TRIANGLE_LOOKUP;
+		static std::mutex TRIANGLE_LOOKUP_MUTEX;
 
 		std::vector<Triangle> triangles;
 

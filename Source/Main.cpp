@@ -24,7 +24,8 @@ int main(int argc, char** argv) {
 	// Create the camera
 	Camera camera{ { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
 	std::vector<std::unique_ptr<Object>> objects;
-	// objects.emplace_back(ObjLoader::loadObjFile("Assets/Meshes/Suzanne.obj"));
+	objects.emplace_back(ObjLoader::loadObjFile("Assets/Meshes/Suzanne.obj"));
+	/*
 	objects.emplace_back(std::make_unique<Sphere>(glm::vec3(1.5f, 0.0f, 5.0f), 0.3f));
 	objects.emplace_back(std::make_unique<Sphere>(glm::vec3(0.0f, 0.0f, 5.0f), 1.0f));
 	objects.emplace_back(std::make_unique<Quad>(glm::vec3(0.0f, -1.5f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 3.0f));
@@ -32,6 +33,7 @@ int main(int argc, char** argv) {
 		glm::vec3(1.5f, -1.5f, 5.0f),
 		glm::vec3(2.5f, -1.5f, 5.0f),
 		glm::vec3(2.0f, -0.5f, 5.0f)));
+	*/
 
 	// Create lights for the scene
 	std::vector<PointLight> lights;

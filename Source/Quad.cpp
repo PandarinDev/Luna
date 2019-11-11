@@ -14,13 +14,13 @@ namespace luna {
 
 		float denom = glm::dot(-normal, ray.direction);
 		if (denom < ERROR_MARGIN) {
-			return {};
+			return std::nullopt;
 		}
 
 		auto toCenter = position - ray.origin;
 		float t = glm::dot(toCenter, -normal) / denom;
 		if (t <= ERROR_MARGIN) {
-			return {};
+			return std::nullopt;
 		}
 
 		auto intersection = ray.pointAt(t);
@@ -28,7 +28,7 @@ namespace luna {
 		float distanceY = std::abs(intersection.y - position.y);
 		float distanceZ = std::abs(intersection.z - position.z);
 		if (distanceX > size || distanceY > size || distanceZ > size) {
-			return {};
+			return std::nullopt;
 		}
 
 		return intersection;
