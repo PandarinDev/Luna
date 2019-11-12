@@ -15,7 +15,7 @@ namespace luna {
 
         glm::vec3 pvec = glm::cross(ray.direction, p0p2);
         float det = glm::dot(p0p1, pvec);
-        if (std::fabs(det) < ERROR_MARGIN) {
+        if (det < ERROR_MARGIN) {
             return std::nullopt;
         }
 
