@@ -9,7 +9,7 @@ namespace luna {
 	Sphere::Sphere(const glm::vec3& position, float radius, const Material& material) :
 		Object(material), position(position), radius(radius) {}
 
-	std::optional<glm::vec3> Sphere::getIntersectionPoint(const Ray& ray) const {
+	std::optional<Intersection> Sphere::getIntersectionPoint(const Ray& ray) const {
 		auto toCenter = position - ray.origin;
 		auto t = glm::dot(toCenter, ray.direction);
 		auto middlePoint = ray.pointAt(t);
@@ -27,20 +27,20 @@ namespace luna {
 		auto t2Point = ray.pointAt(t2);
 
 		if (t1 < 0.0f) {
-			return (t2 > 0.0f) ? ray.pointAt(t2) : std::optional<glm::vec3>{};
+			return (t2 > 0.0f)
+				? std::make_optional<Intersection>(t2Point, glm::normalize(t2Point - position))
+				: std::nullopt;
 		}
 
 		if (t2 < 0.0f) {
-			return (t1 > 0.0f) ? ray.pointAt(t1) : std::optional<glm::vec3>{};
+			return (t1 > 0.0f)
+				? std::make_optional<Intersection>(t1Point, glm::normalize(t1Point - position))
+				: std::nullopt;
 		}
 
 		return (glm::length(t1Point - ray.origin) < glm::length(t2Point - ray.origin))
-			? t1Point
-			: t2Point;
-	}
-
-	glm::vec3 Sphere::getSurfaceNormalAt(const glm::vec3& point) const {
-		return glm::normalize(point - position);
+			? std::make_optional<Intersection>(t1Point, glm::normalize(t1Point - position))
+			: std::make_optional<Intersection>(t2Point, glm::normalize(t2Point - position));
 	}
 
 }

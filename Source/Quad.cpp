@@ -9,7 +9,7 @@ namespace luna {
 	Quad::Quad(const glm::vec3& position, const glm::vec3& normal, float size) :
 		Object(Material::DEFAULT), position(position), normal(normal), size(size) {}
 
-	std::optional<glm::vec3> Quad::getIntersectionPoint(const Ray& ray) const {
+	std::optional<Intersection> Quad::getIntersectionPoint(const Ray& ray) const {
 		static constexpr float ERROR_MARGIN = 1e-6f;
 
 		float denom = glm::dot(-normal, ray.direction);
@@ -31,11 +31,7 @@ namespace luna {
 			return std::nullopt;
 		}
 
-		return intersection;
-	}
-
-	glm::vec3 Quad::getSurfaceNormalAt(const glm::vec3& point) const {
-		return normal;
+		return std::make_optional<Intersection>(intersection, normal);
 	}
 
 }

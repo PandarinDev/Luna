@@ -2,8 +2,7 @@
 
 #include "Ray.h"
 #include "Material.h"
-
-#include <glm/vec3.hpp>
+#include "Intersection.h"
 
 #include <optional>
 
@@ -16,8 +15,7 @@ namespace luna {
 		Object(const Material& material) : material(material) {}
 		virtual ~Object() = default;
 
-		virtual std::optional<glm::vec3> getIntersectionPoint(const Ray& ray) const = 0;
-		virtual glm::vec3 getSurfaceNormalAt(const glm::vec3& point) const = 0;
+		virtual std::optional<Intersection> getIntersectionPoint(const Ray& ray) const = 0;
 
 		const Material& getMaterial() const {
 			return material;

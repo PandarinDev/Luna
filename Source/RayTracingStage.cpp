@@ -44,13 +44,13 @@ namespace luna {
 					float normalizedY = ((y + offset) / height) - 0.5f;
 					glm::vec3 direction = glm::normalize(glm::vec3(normalizedX, normalizedY, FRUSTRUM_DISTANCE));
 					Ray ray { scene.camera.position, direction };
-					std::optional<glm::vec3> closestIntersection;
+					std::optional<Intersection> closestIntersection;
 					Object* closestObject = nullptr;
 					for (const auto& objPtr : scene.objects) {
 						auto intersection = objPtr->getIntersectionPoint(ray);
 						// Skip if the ray does not intersect the object or there
 						// is already a closer intersection with a different object
-						if (!intersection || (closestIntersection && glm::length(*closestIntersection - ray.origin) < glm::length(*intersection - ray.origin))) {
+						if (!intersection || (closestIntersection && glm::length(closestIntersection->coordinates - ray.origin) < glm::length(intersection->coordinates - ray.origin))) {
 							continue;
 						}
 						closestIntersection = intersection;
@@ -62,7 +62,7 @@ namespace luna {
 					}
 					// Otherwise color the pixel to the material of the object
 					for (const auto& light : scene.lights) {
-						auto intensity = light.calculateEffectAt(*closestIntersection, *closestObject, scene.objects);
+						auto intensity = light.calculateEffectAt(closestIntersection->coordinates, *closestObject, scene.objects);
 						pixelColor += closestObject->getMaterial().color * light.color * intensity;
 					}
 					pixelColor += closestObject->getMaterial().color * AMBIENT_LIGHT;

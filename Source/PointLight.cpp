@@ -27,22 +27,23 @@ namespace luna {
 
 		Ray ray { this->position, glm::normalize(position - this->position) };
 		// First trace if the light can hit the position
-		std::optional<glm::vec3> closestIntersection;
+		std::optional<Intersection> closestIntersection;
 		for (const auto& objPtr : objects) {
 			auto intersection = objPtr->getIntersectionPoint(ray);
-			if (!intersection || closestIntersection && glm::length(this->position - *closestIntersection) < glm::length(this->position - *intersection)) {
+			if (!intersection || closestIntersection && glm::length(this->position - closestIntersection->coordinates) < glm::length(this->position - intersection->coordinates)) {
 				continue;
 			}
-			closestIntersection = *intersection;
+			closestIntersection = intersection;
 		}
 		
 		// If the object is in shadow the light contribution is zero
-		if (!closestIntersection || glm::length(position - *closestIntersection) > ERROR_TOLERANCE) {
+		if (!closestIntersection || glm::length(position - closestIntersection->coordinates) > ERROR_TOLERANCE) {
 			return 0.0f;
 		}
 
 		const auto& material = object.getMaterial();
-		auto normal = object.getSurfaceNormalAt(position);
+		// auto normal = object.getSurfaceNormalAt(position);
+		auto normal = closestIntersection->normal;
 		auto toLight = glm::normalize(this->position - position);
 		auto lightSurfaceDot = glm::dot(toLight, normal);
 		auto diffuseComponent = (lightSurfaceDot > 0.0f)
